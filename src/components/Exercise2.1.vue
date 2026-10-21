@@ -11,8 +11,6 @@ const grade = ref(0)
       <input
         v-model.number="grade"
         type="number"
-        min="0"
-        max="100"
       >
     </label>
 

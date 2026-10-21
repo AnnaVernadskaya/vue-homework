@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 
 const students = ref([
-  { id: 1, name: 'Анна', grade: 90 },
+  { id: 1, name: 'Роман', grade: 90 },
   { id: 2, name: 'Иван', grade: 75 },
   { id: 3, name: 'Мария', grade: 55 }
 ])
