@@ -15,10 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment: github-pages
-
     steps:
       - uses: actions/checkout@v7
 
@@ -26,13 +24,27 @@ jobs:
         with:
           node-version: '24'
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - uses: actions/configure-pages@v6
+      - name: Build
+        run: npm run build
 
-      - uses: actions/upload-pages-artifact@v5
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload build
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
-      - uses: actions/deploy-pages@v5
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: publish
+        uses: actions/deploy-pages@v5
